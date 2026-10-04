@@ -1,0 +1,42 @@
+services:
+  - type: web
+    name: shared-expense-tracker
+    runtime: python
+    region: oregon
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: streamlit run app.py --server.port $PORT --server.address 0.0.0.0
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
+      - key: DATABASE_URL
+        fromDatabase:
+          name: shared-expense-db
+          property: connectionString
+      - key: SECRET_KEY
+        generateValue: true
+      - key: PERSON_1_NAME
+        value: Person 1
+      - key: PERSON_1_USERNAME
+        value: person1
+      - key: PERSON_1_PASSWORD
+        value: password123
+      - key: PERSON_2_NAME
+        value: Person 2
+      - key: PERSON_2_USERNAME
+        value: person2
+      - key: PERSON_2_PASSWORD
+        value: password123
+      - key: PERSON_3_NAME
+        value: Person 3
+      - key: PERSON_3_USERNAME
+        value: person3
+      - key: PERSON_3_PASSWORD
+        value: password123
+
+databases:
+  - name: shared-expense-db
+    plan: free
+    region: oregon
+    databaseName: tracker_db
+    user: tracker_user
